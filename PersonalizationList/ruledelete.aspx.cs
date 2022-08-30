@@ -67,22 +67,38 @@ namespace PersonalizationList
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            List<Rule> rules= (Library.LookupDirectory(txtDeleteRulePath.Text)).GroupBy(p => p.RuleId).Select(g => g.First()).ToList(); 
-             
-            if (ddlRules.Items?.Count == 1)
+            if (Library.Right(txtDeleteRulePath.Text?.Trim().ToLower(), 4) == ".yml")
             {
-                foreach (Rule rule in rules)
-                {
-                   ddlRules.Items.Add(rule.RuleName);
-                }
+                ddlRules.Enabled = false;
+                btnDisplay.Enabled = false;
+
+                List<Rule> rules = Library.ListRulesinYml(txtDeleteRulePath.Text);
+                ViewState["Rules"] = rules;
+                gvRules.DataSource = rules;
+                gvRules.DataBind();
             }
-            ViewState["LoadRules"] = 1;
+            else
+            {
+                ddlRules.Enabled = true;
+                btnDisplay.Enabled = true;
+                List<Rule> rules = (Library.LookupDirectory(txtDeleteRulePath.Text)).GroupBy(p => p.RuleId).Select(g => g.First()).ToList();
+
+                if (ddlRules.Items?.Count == 1)
+                {
+                    foreach (Rule rule in rules)
+                    {
+                        ddlRules.Items.Add(rule.RuleName);
+                    }
+                }
+                ViewState["LoadRules"] = 1;
+            }
         }
 
 
         protected void ddlRules_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<Rule> ruleList = Library.LookupDirectory(txtDeleteRulePath.Text);
+            List<Rule> ruleList  = Library.LookupDirectory(txtDeleteRulePath.Text);
+
             List<Rule> rules = ruleList.Where(x => x.RuleName == ddlRules.Text).ToList();
             ViewState["Rules"] = rules;
             gvRules.DataSource = rules;
