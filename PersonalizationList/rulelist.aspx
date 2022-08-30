@@ -8,7 +8,7 @@
 <body>
     <form id="form1" runat="server">
 					<div>
-						<h1>Personalization Page List</h1>
+						<h1>Personalization Rule List</h1>
 						<asp:Label ID="Label2" label="Valid Folder Path:" ToolTip="Provide serialization folder path" runat="server" Text="Folder or .yml file Path: "></asp:Label><asp:TextBox ID="txtPath" runat="server" Width="478px"></asp:TextBox><asp:Button ID="Button2" type="submit" runat="server" Text="Load Rules"/>
             	          <asp:gridview ID="gvRules" runat="server" autogeneratecolumns="False" datakeynames="RuleId"  Width="98%"
                                 style="margin-top: 20px;"
